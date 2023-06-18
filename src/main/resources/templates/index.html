@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: common_header(~{::title},~{})">
+    <title>Home</title>
+</head>
+<body>
+<main class="container">
+    <div class="text-center mt-5">
+        <h2 th:text="'Hi, ' + ${session.loginUser.email} ?: _">Home Page</h2>
+        <a href="/users" th:href="@{/users}">查看所有用户</a>
+    </div>
+    <div class="mt-5">
+        <form th:action="@{/upload}" th:method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" name="name" id="name" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="avatar" class="form-label">单文件上传</label>
+                <input type="file" name="avatar" id="avatar" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="photos" class="form-label">多文件上传</label>
+                <input type="file" name="photos" id="photos" class="form-control" multiple required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <div class="my-5">
+        <h2>Spring Boot 核心原理总结</h2>
+        <p>提供 spring-boot-starter-***/***-spring-boot-starter 场景依赖 ---> <span class="p-2 border">***AutoConfiguration 配置类 ---> 会自动导入该场景需要的 *** 组件 ---> 同时会通过 ***Properties</span> ---> 绑定 *** 配置文件项</p>
+
+        <h2>Spring Boot 最理想的使用方式</h2>
+        <ol>
+            <li>引入 spring-boot-starter-***/***-spring-boot-starter 场景依赖</li>
+            <li>修改 *** 配置文件项</li>
+        </ol>
+
+        <h2>如果最理想的使用方式不能满足要求，还可以...</h2>
+        <ul>
+            <li>编写自定义的配置类 ***Configuration 标注 @Configuration + 配合 @Bean 注解替换、增加 spring-boot-starter-***/***-spring-boot-starter 默认向容器中导入的组件</li>
+            <li>如果开发的是 web 应用，可以自己写一个配置类实现 WebMvcConfigurer 接口，重写相应的方法即可定制化相应的功能；还可以使用 @Bean 给容器中再扩展一些组件</li>
+            <li>@EnableWebMvc + WebMvcConfigurer 可以全面接管 SpringMVC 自己配置所有规则</li>
+        </ul>
+    </div>
+</main>
+</body>
+</html>

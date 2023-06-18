@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: common_header(~{::title},~{})">
+    <title>Users</title>
+</head>
+<body class="text-center">
+<main class="container">
+    <div class="mt-5">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user,stats:${page.records}">
+                <td th:text="${stats.count}"></td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.age}"></td>
+                <td>
+                    <a class="btn btn-sm btn-danger" href="#" th:href="@{/users/{id}(id=${user.id})}"
+                       onclick="event.preventDefault(); if(confirm('确定删除吗?')){document.getElementById('destroy-form').submit();}">
+                        删除
+                        <form id="destroy-form" th:action="@{/users/{id}(id=${user.id},p=${page.getCurrent()})}" method="post" style="display: none;">
+                            <input type="hidden" name="_method" value="delete">
+                        </form>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+        <p class="text-muted">当前第 [[${page.getCurrent()}]] 页，总计 [[${page.getPages()}]] 页，共 [[${page.getTotal()}]] 条记录</p>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:if="${page.hasPrevious()}">
+                    <a class="page-link" href="#" th:href="@{/users(p=${page.getCurrent()-1})}" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li th:class="${currentPageNumber == page.getCurrent() ? 'page-item active' : 'page-item'}" class="page-item" th:each="currentPageNumber:${#numbers.sequence(1, page.getPages())}"><a class="page-link" th:href="@{/users(p=${currentPageNumber})}" href="#">[[${currentPageNumber}]]</a></li>
+                <li class="page-item" th:if="${page.hasNext()}">
+                    <a class="page-link" href="#" th:href="@{/users(p=${page.getCurrent()+1})}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: common_header(~{::title},~{})">
+    <title>ArithmeticException - GlobalExceptionHandler</title>
+</head>
+<body>
+<main class="container">
+    <div class="text-center mt-5">
+        <h2 class="mb-3">ArithmeticException</h2>
+    </div>
+
+    <pre class="text-black-50">
+        <b class="text-danger">@ControllerAdvice</b>
+        public class GlobalExceptionHandler {
+        <b class="text-danger">    @ExceptionHandler({ArithmeticException.class})</b>
+            public String handleArithmeticException() {
+                return "error/handle-arithmetic-exception";
+            }
+        }
+    </pre>
+</main>
+</body>
+</html>

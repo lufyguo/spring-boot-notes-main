@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: common_header(~{::title},~{})">
+    <title th:text="${status} + ' - ' + ${error}">404</title>
+</head>
+<body>
+<main class="container">
+    <div class="text-center mt-5">
+        <h2 th:text="${status}">404</h2>
+        <p th:text="${error}">Not Found</p>
+        <ul class="list-unstyled">
+            <li th:text="${path}"></li>
+            <li th:text="${message}"></li>
+            <li th:text="${timestamp}"></li>
+        </ul>
+        <a class="btn btn-sm btn-success mb-3" th:href="@{/}">回到首页</a>
+    </div>
+</main>
+</body>
+</html>

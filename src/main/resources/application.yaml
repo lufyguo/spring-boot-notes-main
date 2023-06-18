@@ -1,0 +1,102 @@
+server:
+  port: 8080
+
+info:
+  name: @project.artifactId@
+  version: @project.version@
+
+spring:
+  web:
+    resources:
+      # 静态资源存放路径。默认值：["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/"]
+      static-locations: ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/"]
+  mvc:
+    # 静态资源访问前缀。默认值：/**
+    static-path-pattern: "/resources/**"
+    # 开启基于请求参数的内容协商功能，默认参数名是 format，形如：format=json 或 format=xml
+    contentnegotiation:
+      favor-parameter: true
+    hiddenmethod:
+      filter:
+        enabled: true
+
+  jackson:
+    time-zone: Asia/Shanghai
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+  datasource:
+    url: jdbc:mysql://localhost:3306/springboot2-notes
+    username: root
+    password: password
+    druid:
+      stat-view-servlet: # 配置内置监控页面相关功能
+        enabled: true
+        login-username: admin
+        login-password: secret
+      web-stat-filter: # Web应用
+        enabled: false # ***** 开启这个功能会影响单元测试，待进一步验证 *****
+      filters: stat,wall # stat=SQL监控，wall=SQL防火墙
+      filter:
+        stat: # 对 filters 中 stat 这个单项的详细配置
+          slow-sql-millis: 3000
+          enabled: true
+          log-slow-sql: false
+        wall: # 对 filters 中 wall 这个单项的详细配置
+          enabled: true
+          config:
+            drop-table-allow: true
+      #aop-patterns: com.ziorye.* # Spring监控。***** 开启这个功能会影响单元测试，待进一步验证 *****
+  redis:
+    host: localhost # 默认值
+    port: 6379 # 默认值
+    password: password
+    lettuce: # 默认使用了更高效更安全的 Lettuce 客户端。以前是 Jedis，可以通过 client-type 配置项目修改
+      pool: # 连接池相关配置。要启用连接池需要引入 org.apache.commons:commons-pool2 依赖
+        max-active: 8 # 默认值
+        max-idle: 8 # 默认值
+        min-idle: 0 # 默认值
+mybatis-plus:
+  #mapper-locations: classpath:mapper/*.xml # mybatis-plus 为 mapper-locations 设置了默认值：classpath*:/mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+
+# ==============================
+# custom properties
+# ==============================
+
+# MyProperties 绑定的属性
+my:
+  name: tomcat
+  age: 3
+
+# 用 yaml 文件配置 Person 对象
+person:
+  userName: zhangsan
+  boss: false
+  birth: 1888/8/8 08:08:09
+  age: 18
+  interests: [篮球, 游泳]
+  animal:
+    - jerry
+    - mario
+  score:
+    english:
+      first: 30
+      second: 40
+      third: 50
+    math: [131, 140, 148]
+    chinese: {first: 128, second: 136}
+  salaries: [3999, 4999.98, 5999.99]
+  pet:
+    name: tomcat
+    weight: 23.4
+  allPets:
+    sick:
+      - {name: tom}
+      - {name: jerry, weight: 47}
+    health: [{name: mario, weight: 47}]
